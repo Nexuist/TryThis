@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "TryThis",
+    "description": "This extension allows the user to change the background color of the current page.",
+    "version": "1.0",
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+    "page_action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html",
+      "default_title": "Click here!"    
+    },
+    "permissions": [
+      "declarativeContent",
+      "activeTab",
+      "storage"
+    ]
+  }
