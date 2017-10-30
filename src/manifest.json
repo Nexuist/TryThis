@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TryThis - Link Sharing for Slack",
-  "description": "Instantly post your current page to your Slack channels.",
+  "description": "Instantly post a link to your current page to any of your Slack channels.",
   "version": "1.0",
   "icons": {
     "128": "icon.png"
