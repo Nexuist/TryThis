@@ -42,7 +42,8 @@ function inject(box) {
     let shareIcons = box.querySelector("#share-icons");
     let slackDiv = document.createElement("div");
     slackDiv.style = "padding-top: 5px";
-    for (let workspace of workspaces) {
+    for (let i = 0; i < workspaces.length; i++) {
+        let workspace = workspaces[i];
         // Header
         let header = document.createElement("h3");      
         header.style = "margin-bottom: 2px";       
@@ -64,7 +65,8 @@ function inject(box) {
             channelItem.innerText = "# " + channel;
             channelItem.onclick = () => chrome.runtime.sendMessage({
                 action: "send",
-                workspace: workspace.name,
+                link,
+                workspaceIndex: i,
                 channel
             }, (res) => {
                 if (res == "success") {
@@ -74,6 +76,7 @@ function inject(box) {
                     channelItem.innerHTML = "# " + channel + " <span style='color: red;'>error, check console</span>";
                     console.error(res);
                 }
+                channelItem.onclick = null; // Can only sned message once
             });
             channelList.append(channelItem);
         }
