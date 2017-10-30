@@ -17,3 +17,11 @@ chrome.runtime.onInstalled.addListener(function () {
         ]);
     });
 });
+
+// Implement IPC to accomplish some things since content scripts/injected scripts are sandboxed
+chrome.runtime.onMessage.addListener((detail, sender, sendResponse) => {
+    if (detail.name == "options") chrome.runtime.openOptionsPage();
+    if (detail.name == "send") {
+        console.log(detail);
+    }
+});
