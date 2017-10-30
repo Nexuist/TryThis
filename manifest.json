@@ -9,7 +9,7 @@
         "https://stackoverflow.com/*"
       ],
       "js": [
-        "injector.js"
+        "injection.js"
       ],
       "run_at": "document_end"
     }
@@ -23,13 +23,12 @@
   "options_ui": {
     "page": "popup.html"
   },
-  "page_action": {
+  "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html",
     "default_title": "Click here!"
   },
   "web_accessible_resources": [
-    "injection.js",
     "slack.png"
   ],
   "permissions": [

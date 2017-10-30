@@ -1,11 +1,36 @@
+// This runs right after DOM is constructed
+
 // https://stackoverflow.com/a/4793630
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
-// Data added by the injector
-let selfScript = document.getElementById("TryThis");
-let workspaces = JSON.parse(selfScript.dataset.workspaces);
-let slackIconURL = selfScript.dataset.slackIconURL;
+
+let workspaces = [
+    {
+        "name": "SquaredLabs",
+        "bot_name": "andi",        
+        "webhook_url": "google.com",
+        "icon_or_emote": "memes",
+        "channels": [
+            "general",
+            "lincus",
+            "random",
+            "garbage!"
+        ]
+    },
+    {
+        "name": "Project Capstone",
+        "bot_name": "booty",        
+        "webhook_url": "google.com",
+        "icon_or_emote": "memes",
+        "channels": [
+            "general",
+            "floridaman",
+            "random"
+        ]
+    }
+];
+let slackIconURL = chrome.runtime.getURL("slack.png");
 
 // Latch onto every share button on the page
 let shareButtons = document.getElementsByClassName("short-link");
@@ -54,17 +79,7 @@ function inject(box) {
             let channelItem = document.createElement("li");
             channelItem.innerText = "# " + channel;
             channelItem.onclick = () => {
-                let sendEvent = new CustomEvent(
-                    "TryThisEvent",
-                    {
-                        detail: {
-                            name: "send",
-                            workspace: workspace.name,
-                            channel
-                        }
-                    }
-                );
-                document.dispatchEvent(sendEvent);
+                alert("clicked!!!!");
             };
             channelList.append(channelItem);
         }
@@ -89,17 +104,7 @@ function inject(box) {
     insertAfter(slackDiv, shareIcons);
     let settingsLink = document.createElement("a");
     settingsLink.innerText = "TryThis settings...";
-    settingsLink.onclick = () => {
-        let optionsEvent = new CustomEvent(
-            "TryThisEvent",
-            {
-                detail: {
-                    name: "options"
-                }
-            }
-        );
-        document.dispatchEvent(optionsEvent);
-    };
+    settingsLink.onclick = () => chrome.runtime.sendMessage("options");
     insertAfter(settingsLink, slackDiv);
 }
 
