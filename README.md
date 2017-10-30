@@ -18,6 +18,8 @@ And for any other cool sites you find, TryThis is available directly from the to
 
 TryThis uses [Vue.js](https://vuejs.org) for the popup and settings pages, and of course the [Chrome APIs](https://developer.chrome.com/extensions/api_index) for everything else.
 
+>**NOTE:** If you wish to compile TryThis yourself, you will need to save the production version of Vue.js as `vue.prod.js` in the `src/` folder in order for everything to work correctly. TryThis was built with Vue.js v2.5.1.
+
 ### License
 
 ```MIT License
