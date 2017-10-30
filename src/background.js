@@ -1,3 +1,21 @@
+// Set up initial storage settings
+chrome.runtime.onInstalled.addListener((reason) => {
+    // Don't override storage if it's just an update
+    if (reason == "install") {
+        chrome.storage.sync.set({
+            workspaces: [{
+                name: "Unnamed Workspace",
+                bot_name: "TryThis Chrome Extension",
+                webhook_url: null,
+                icon_or_emote: ":flag-al:",
+                channels: [
+                    "general"
+                ]
+            }]
+        });
+    }
+});
+
 // Implement IPC to accomplish some things since content scripts/injected scripts are sandboxed
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action == "options") chrome.runtime.openOptionsPage();
@@ -35,7 +53,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             }).catch((err) => {
                 sendResponse(err);
-            });         
+            });
         });
         return true; // Indicate that the message response will be async
     }
