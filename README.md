@@ -10,7 +10,7 @@ And for any other cool sites you find, TryThis is available directly from the to
 
 <img src="screenshots/popup.png" alt="Toolbar popup" />
 
- With TryThis, you can customize the name of your webhook, give it an emote or profile picture URL, manage visible channels, and click once to share a link, all without ever having to log in to Slack.
+ With TryThis, you can customize the name of your webhook, give it an emote or profile picture URL, manage visible channels, and click once to share a link, all within a few clicks and all without ever having to log in to Slack.
 
  <img src="screenshots/settings.png" alt="Settings modal" />
 
