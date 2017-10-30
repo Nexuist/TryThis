@@ -1,0 +1,72 @@
+body {
+  padding: 5px;
+  padding-bottom: 0px;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+#workspaceSelector {
+    padding-bottom: 10px;
+}
+
+/* Two column layout between the label name and its input box */
+label {
+  display: block;
+  padding-bottom: 10px;
+}
+
+label b {
+  display: inline-block;
+  width: 20vw;
+}
+
+label input {
+  display: inline-block;
+  width: 60vw;
+}
+
+/* Add right padding so the X mark is aligned with the end of the input box */
+label#channels {
+    padding-right: 9vw;
+    padding-bottom: 15px;
+}
+
+/* Add top padding so the input box isn't touching the text above it */
+li#newChannelRow {
+    padding-top: 5px;
+}
+
+/* So the saved text doesn't touch the button */
+#saved {
+    padding-left: 5px;
+}
+
+#footer {
+    padding-top: 20px;
+}
+
+/* So each link is on its own line */
+#footer a {
+  display: block;
+}
+
+/* Generic classes */
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.gray {
+    color: gray;
+}
+
+.right {
+  float: right;
+  color: red;
+}
