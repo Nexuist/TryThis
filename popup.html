@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>TryThis Options</title>
+    <meta charset="UTF-8">
+    <script src="vue.dev.js"></script>
+    <script src="popup.js" defer></script>
+    <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+    <div id="root">
+        <input tabindex="-1" id="link" type="text" v-model="link" />
+        <div v-for="(workspace, workspaceIndex) in workspaces">
+            <h3>
+                <img class="slackIcon" :src="slackIconURL" />
+                <b>{{ workspace.name }}</b>
+            </h3>
+            <ul>
+                <li v-for="channel in workspace.channels" v-on:click="send(this.event.target, workspaceIndex, channel)">#{{ channel }}</li>
+            </ul>
+        </div>
+        <!-- tabindex is set to -1 to prevent Chrome from focusing on this element every time the popup appears -->
+        <a id="settingsLink" tabindex="-1" v-on:click="openSettings()" href="#">TryThis settings...</a>
+    </div>
+</body>
+
+</html>

@@ -76,7 +76,7 @@ function inject(box) {
                     channelItem.innerHTML = "# " + channel + " <span style='color: red;'>error, check console</span>";
                     console.error(res);
                 }
-                channelItem.onclick = null; // Can only sned message once
+                channelItem.onclick = null; // Can only send message once
             });
             channelList.append(channelItem);
         }
