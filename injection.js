@@ -5,52 +5,36 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-let workspaces = [
-    {
-        "name": "SquaredLabs",
-        "bot_name": "andi",        
-        "webhook_url": "google.com",
-        "icon_or_emote": "memes",
-        "channels": [
-            "general",
-            "lincus",
-            "random",
-            "garbage!"
-        ]
-    },
-    {
-        "name": "Project Capstone",
-        "bot_name": "booty",        
-        "webhook_url": "google.com",
-        "icon_or_emote": "memes",
-        "channels": [
-            "general",
-            "floridaman",
-            "random"
-        ]
-    }
-];
+let workspaces = [];
+chrome.storage.sync.get({
+    workspaces: []
+}, (options) => {
+    workspaces = options.workspaces;
+    addClickHandlers();
+});
 let slackIconURL = chrome.runtime.getURL("slack.png");
 
 // Latch onto every share button on the page
-let shareButtons = document.getElementsByClassName("short-link");
-for (let button of shareButtons) {
-    button.onclick = (event) => {
-        let giveUpIterations = 100;
-        let iterations = 0;
-        // Wait for the other click handler to render the box once clicked
-        let waiter = setInterval(() => {
-            let box = button.parentNode.getElementsByClassName("share-tip")[0];
-            iterations += 1;
-            if (box != undefined) {
-                clearInterval(waiter);
-                inject(box);
-            }
-            if (iterations >= giveUpIterations) {
-                clearInterval(waiter);
-            }
-        }, 5);
-    };
+function addClickHandlers() {
+    let shareButtons = document.getElementsByClassName("short-link");
+    for (let button of shareButtons) {
+        button.onclick = (event) => {
+            let giveUpIterations = 100;
+            let iterations = 0;
+            // Wait for the other click handler to render the box once clicked
+            let waiter = setInterval(() => {
+                let box = button.parentNode.getElementsByClassName("share-tip")[0];
+                iterations += 1;
+                if (box != undefined) {
+                    clearInterval(waiter);
+                    inject(box);
+                }
+                if (iterations >= giveUpIterations) {
+                    clearInterval(waiter);
+                }
+            }, 5);
+        };
+    }
 }
 
 function inject(box) {
@@ -78,15 +62,27 @@ function inject(box) {
         for (let channel of workspace.channels) {
             let channelItem = document.createElement("li");
             channelItem.innerText = "# " + channel;
-            channelItem.onclick = () => {
-                alert("clicked!!!!");
-            };
+            channelItem.onclick = () => chrome.runtime.sendMessage({
+                action: "send",
+                workspace: workspace.name,
+                channel
+            }, (res) => {
+                if (res == "success") {
+                    channelItem.innerHTML = "# " + channel + " <span style='color: green;'>✔</span>";
+                }
+                else {
+                    channelItem.innerHTML = "# " + channel + " <span style='color: red;'>error, check console</span>";
+                    console.error(res);
+                }
+            });
             channelList.append(channelItem);
         }
-        // Add button
+        /* Add button
+         * Disabled because I don't want to implement the backend for this right now
         let addItem = document.createElement("li");
         addItem.innerText = "+ Add channel";
         channelList.appendChild(addItem);
+        */
         // Hover functionality
         Array.from(channelList.getElementsByTagName("li")).forEach((item) => {
             item.style.paddingLeft = "2px"; // So the background when hovered doesn't end exactly where the # begins
@@ -104,7 +100,7 @@ function inject(box) {
     insertAfter(slackDiv, shareIcons);
     let settingsLink = document.createElement("a");
     settingsLink.innerText = "TryThis settings...";
-    settingsLink.onclick = () => chrome.runtime.sendMessage("options");
+    settingsLink.onclick = () => chrome.runtime.sendMessage({action: "options"});
     insertAfter(settingsLink, slackDiv);
 }
 

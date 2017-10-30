@@ -21,18 +21,19 @@
     "persistent": false
   },
   "options_ui": {
-    "page": "popup.html"
+    "page": "options.html",
+    "chrome_style": true
   },
   "browser_action": {
     "default_icon": "icon.png",
-    "default_popup": "popup.html",
+    "default_popup": "options.html",
     "default_title": "Click here!"
   },
   "web_accessible_resources": [
     "slack.png"
   ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",  
   "permissions": [
-    "declarativeContent",
     "activeTab",
     "storage"
   ]

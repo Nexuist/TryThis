@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>TryThis Options</title>
+  <meta charset="UTF-8">
+  <script src="vue.dev.js"></script>
+  <script src="options.js" defer></script>
+  <style>
+    body {
+      padding: 5px;
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    label {
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    label b {
+      display: inline-block;
+      width: 20vw;
+    }
+
+    label input {
+      display: inline-block;
+      width: 60vw;
+    }
+
+    .right {
+      float: right;
+      color: red;
+    }
+    #footer a {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <div style="padding-bottom: 10px;">
+      <select v-model="index">
+        <option v-for="(workspace, index) in workspaces" :value="index">{{workspace.name}}</option>
+      </select>
+      <a v-on:click="addWorkspace">New Workspace...</a>
+    </div>
+    <label>
+      <b>Name</b>
+      <input type="text" v-model="selectedWorkspace.name" />
+    </label>
+    <label>
+      <b>Webhook URL</b>
+      <input type="url" placeholder="https://hooks.slack.com/services/..." v-model="selectedWorkspace.webhook_url" />
+    </label>
+    <label>
+      <b>Bot Name</b>
+      <input type="text" placeholder="TryThis Chrome Extension" v-model="selectedWorkspace.bot_name" />
+    </label>
+    <label>
+      <b>Icon/Emote</b>
+      <input type="text" placeholder=":flag-al:" v-model="selectedWorkspace.icon_or_emote" />
+    </label>
+    <label style="padding-right: 9vw;">
+      <b style="width: auto; padding-right: 5px;">Channels</b>
+      <ul>
+        <li v-for="(channel, index) in selectedWorkspace.channels">#{{ channel }}
+          <a class="right" v-on:click="deleteChannel(index)">✕</a>
+        </li>
+        <li v-if="addingNewChannel" style="padding-top: 5px;">
+          <input type="text" placeholder="Enter your channel name (without the #) and press enter." ref="newChannelInput" v-on:keydown.enter="addChannel()">
+        </li>
+      </ul>
+      <a v-if="!addingNewChannel" v-on:click="addingNewChannel = true">Add Channel...</a>
+    </label>
+    <label v-if="workspaces.length > 1" >
+        <b>Delete Workspace</b>
+        <a v-on:click="consideringDeletingWorkspace ? deleteWorkspace() : consideringDeletingWorkspace = true" style="color:red;">{{ consideringDeletingWorkspace ? "Are you sure? Click again to confirm." : "Delete Workspace..." }}</a>
+      </label>
+    <button v-on:click="saveChanges(true)" style="display: inline-block; margin-top: 10px;">Save Changes</button><span v-if="savedChanges" style="color:green; padding-left: 5px">saved</span>
+    <p style="color:gray">If you have a StackOverflow page open, you will need to refresh it for these changes to take effect.</p>
+    <div id="footer" style="padding-top: 30px;">
+      <a href="https://my.slack.com/services/new/incoming-webhook/" target="_blank">Create an Incoming Webhook...</a> 
+      <a href="https://api.slack.com/incoming-webhooks" target="_blank">Webhook Documentation...</a>
+    </div>   
+  </div>
+</body>
+
+</html>
