@@ -1,8 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "TryThis",
-  "description": "This extension allows the user to change the background color of the current page.",
+  "name": "TryThis - Link Sharing for Slack",
+  "description": "Instantly post your current page to your Slack channels.",
   "version": "1.0",
+  "icons": {
+    "128": "icon.png"
+  },
   "content_scripts": [
     {
       "matches": [

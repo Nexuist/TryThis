@@ -4,7 +4,7 @@
 <head>
     <title>TryThis Options</title>
     <meta charset="UTF-8">
-    <script src="vue.dev.js"></script>
+    <script src="vue.prod.js"></script>
     <script src="popup.js" defer></script>
     <link rel="stylesheet" href="popup.css" />
 </head>
@@ -17,8 +17,11 @@
                 <img class="slackIcon" :src="slackIconURL" />
                 <b>{{ workspace.name }}</b>
             </h3>
-            <ul>
+            <ul v-if="workspace.webhook_url != null">
                 <li v-for="channel in workspace.channels" v-on:click="send(this.event.target, workspaceIndex, channel)">#{{ channel }}</li>
+            </ul>
+            <ul v-else>
+                <li>Set up a webhook URL for this workspace in your <a tabindex="-1" v-on:click="openSettings()" href="#">settings</a>.</li>
             </ul>
         </div>
         <!-- tabindex is set to -1 to prevent Chrome from focusing on this element every time the popup appears -->

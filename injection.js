@@ -60,24 +60,31 @@ function inject(box) {
         // List of channels under header
         let channelList = document.createElement("ul");
         channelList.style = "list-style-type: none; margin-left: 8px";
-        for (let channel of workspace.channels) {
+        if (workspace.webhook_url != null) {
+            for (let channel of workspace.channels) {
+                let channelItem = document.createElement("li");
+                channelItem.innerText = "# " + channel;
+                channelItem.onclick = () => chrome.runtime.sendMessage({
+                    action: "send",
+                    link,
+                    workspaceIndex: i,
+                    channel
+                }, (res) => {
+                    if (res == "success") {
+                        channelItem.innerHTML = "# " + channel + " <span style='color: green;'>✔</span>";
+                    }
+                    else {
+                        channelItem.innerHTML = "# " + channel + " <span style='color: red;'>error, check console</span>";
+                        console.error(res);
+                    }
+                    channelItem.onclick = null; // Can only send message once
+                });
+                channelList.append(channelItem);
+            }
+        }
+        else {
             let channelItem = document.createElement("li");
-            channelItem.innerText = "# " + channel;
-            channelItem.onclick = () => chrome.runtime.sendMessage({
-                action: "send",
-                link,
-                workspaceIndex: i,
-                channel
-            }, (res) => {
-                if (res == "success") {
-                    channelItem.innerHTML = "# " + channel + " <span style='color: green;'>✔</span>";
-                }
-                else {
-                    channelItem.innerHTML = "# " + channel + " <span style='color: red;'>error, check console</span>";
-                    console.error(res);
-                }
-                channelItem.onclick = null; // Can only send message once
-            });
+            channelItem.innerText = "Set up a webhook URL for this workspace in your settings.";
             channelList.append(channelItem);
         }
         /* Add button
